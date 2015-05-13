@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style/dashboard.css' %}" />
+
+<h1> Dashboard</h1>
+<div id="welcome_user">Hi, {{ user }}</div>
+<section id="summary_section">
+    <div id="slaves_div">
+        <script src="{% static 'core/js/pages/dashboard_list_slaves.js' %}"></script>
+        <ul id="slaves">
+        </ul>
+    </div>
+
+    <div id="locations_div">
+        <script src="{% static 'core/js/pages/dashboard_list_locations.js' %}"></script>
+        <ul id="locations">
+        </ul>
+    </div>
+
+    <div id="regions_div">
+        <script src="{% static 'core/js/pages/dashboard_list_regions.js' %}"></script>
+        <ul id="regions">
+        </ul>
+    </div>
+</section>
+{% endblock content %}

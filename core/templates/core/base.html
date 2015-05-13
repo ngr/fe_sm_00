@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{{ section.title }}{% endblock %}</title>
+    
+    <meta name="viewport" content="user-scalable=0, initial-scale=1.0">
+
+    
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}" />
+    
+    <!-- jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Foundation & FontAwesome -->
+    <!-- link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.3/css/foundation.css" -->
+    <!-- script src="http://d3js.org/d3.v3.min.js"></script -->
+    <!-- script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/trianglify/0.1.2/trianglify.min.js"></script-->
+    <!-- END OF jQuery -->
+    <script src="{% static 'core/js/core_functions.js' %}"></script>
+
+</head>
+
+<body>
+    <input id="token" type="hidden" value="{{ token }}">
+    {% load nav %}
+        {% block navigation %}
+            {% if user.is_authenticated %}
+                {% show_nav %}
+            {% else %}
+                {% guest_show_nav %}
+            {% endif %}
+        {% endblock navigation %}
+
+        {% block content %}
+        {% endblock content %}
+</body>
+</html>

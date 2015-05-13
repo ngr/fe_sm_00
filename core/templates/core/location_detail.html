@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style/location.css' %}" />
+
+    {% if notification %}
+        <div class='{{ notification_class }}'>{{ notification }}</div>
+    {% endif %}
+
+    <h1>{{ location_details.name }} </h1>
+    <input type="hidden" id="location_id" value="{{ location_details.id }}">
+    <input type="hidden" id="location_type" value="{{ location_details.type }}">
+
+    <section id="location_details_summary">
+    {% if location_details %}
+        <div id="location_type_div">
+            {{ location_details.type }}
+        </div>
+        <div id="location_design_div">
+            {{ location_details.design }}
+        </div>
+        <div id="location_area_div">
+            {{ location_details.free_area }}
+        </div>
+    {% endif %}
+    </section>
+    
+    {% if location_details.type != 'Housing' %}
+    <section id="create_task_form_div">
+        <script src="{% static 'core/js/forms/new_task_form.js' %}"></script>
+        Create new tasks:
+        <form id="create_task_form" method="post" action="">
+        <select id="create_task_field_type" type="select" name="type">
+            <option id="create_task_field_type_option" selected="selected" value="">
+                -
+            </option>
+        </select>
+        <input id="create_task_field_location" type="hidden" name="location" value="{{ location_details.id }}">
+        <input id="create_task_field_owner" type="hidden" name="owner" value="{{ user.id }}">
+        <input id="create_task_submit" type="submit" name="submit_button" value="Create">
+        </form>
+    </section>
+    {% endif %}
+    
+    <section id="running_tasks">
+        <script src="{% static 'core/js/draw/running_task.js' %}"></script>
+        <script src="{% static 'core/js/pages/location_tasks.js' %}"></script>
+    </section>
+    
+{% endblock content %}
