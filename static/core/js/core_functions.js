@@ -13,3 +13,12 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
+
+$(document).ready(function(){
+    $('#notification').hide();
+});
+
+function numberWithCommas(x) {
+    if (!x) {return '0'};
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

@@ -2,7 +2,7 @@ $(document).ready(function(){
     var token = $("#token").val();
 
     var regs = jQuery.ajax( {
-        url: 'http://aws00.grischenko.ru:8333/api/regions/',
+        url: 'http://aws00.grischenko.ru:8333/regions/',
         dataType: 'json',
         type: 'GET',
         beforeSend : function( xhr ) {
@@ -17,14 +17,10 @@ $(document).ready(function(){
 
 });
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 function draw_region(r){
     result = "<ul>";
-    result += "<li><a href='"+r.url+"'>"+r.name+"</a></li>";
-    result += "<li>"+numberWithCommas(r.area)+"</li>";
+    result += "<li><a href='/region/"+r.id+"'>"+r.name+"</a></li>";
+    result += "<li>"+numberWithCommas(r.area)+"m</li>";
     result += "</ul>";
     return result;
 }

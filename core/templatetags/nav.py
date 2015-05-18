@@ -20,7 +20,6 @@ def get_navigation_buttons():
     buttons = []
 
     buttons.append({'url':'/', 'value':'Dashboard'})
-    buttons.append({'url':'/regions/', 'value':'Region'})
     buttons.append({'url':'#', 'value':'Slaves'})
     buttons.append({'url':'#', 'value':'Tasks'})
     buttons.append({'url':'/logout', 'value':'Logout'})

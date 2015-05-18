@@ -6,45 +6,55 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'core/style/slave.css' %}" />
 
-    {% if notification %}
-        <div class='{{ notification_class }}'>{{ notification }}</div>
-    {% endif %}
-
     <h1>{{ slave.name }} </h1>
-    <input type="hidden" id="location_id" value="{{ slave.id }}">
+    <input type="hidden" id="slave_id" value="{{ slave.id }}">
     <input type="hidden" id="region_id" value="{{ slave.region_id }}">
 
-    <section id="slave_summary">
-    {% if slave %}
-        <div id="location_type_div">
-            {{ slave.race }}
+    <section id="slave_attributes">
+    {% if attributes %}
+        {% for param, value in attributes.items %}
+        <div id="slave_attribute_div">
+            {{ param|title }}: {{ value }}
         </div>
-        <div id="location_design_div">
-            {{ slave.age }}
-        </div>
+        {% endfor %}
     {% endif %}
-    </section>
+    </section>    
     
-    {% if location_details.type != 'Housing' %}
-    <section id="create_task_form_div">
-        <script src="{% static 'core/js/forms/new_task_form.js' %}"></script>
-        Create new tasks:
-        <form id="create_task_form" method="post" action="">
-        <select id="create_task_field_type" type="select" name="type">
-            <option id="create_task_field_type_option" selected="selected" value="">
+    
+    <section id="slave_assign_to_task" style="display:none">
+        <script src="{% static 'core/js/forms/slave_assign_to_task_form.js' %}"></script>
+        Assign to task:
+        <form id="slave_assign_to_task_form" method="post" action="">
+        <select id="slave_assign_to_task_field_task" type="select" name="task">
+            <option id="slave_assign_to_task_field_task_option" selected="selected" value="">
                 -
             </option>
         </select>
-        <input id="create_task_field_location" type="hidden" name="location" value="{{ location_details.id }}">
-        <input id="create_task_field_owner" type="hidden" name="owner" value="{{ user.id }}">
-        <input id="create_task_submit" type="submit" name="submit_button" value="Create">
+        <input id="slave_assign_to_task_field_slave" type="hidden" name="slave" value="{{ slave.id }}">
+        <input id="slave_assign_to_task_submit" type="submit" name="submit_button" value="Assign">
         </form>
     </section>
-    {% endif %}
     
-    <section id="running_tasks">
-        <script src="{% static 'core/js/draw/running_task.js' %}"></script>
-        <script src="{% static 'core/js/pages/location_tasks.js' %}"></script>
+    <section id="running_assignments" style="display:none">
+        <script src="{% static 'core/js/pages/slave_assignments.js' %}"></script>
+        <input id='running_assignment_id' type='hidden' value=''> 
+        <ul id="running_assignment">
+            <li id="running_assignment_name"></li>
+            <li id="running_assignment_release"><a onClick="releaseAssignment()">Release</a></li>
+        </ul>
     </section>
-    
+
+    <section id="slave_summary">
+    {% if slave %}
+        {% for param, value in slave.items %}
+        <div id="location_type_div">
+            {{ param|title }}: {{ value }}
+        </div>
+        {% endfor %}
+        
+        <div id="location_design_div">
+            Age: {{ slave.age }}
+        </div>
+    {% endif %}
+    </section>    
 {% endblock content %}

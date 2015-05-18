@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style/region.css' %}" />
+
+    <h1>{{ region.name }} </h1>
+    <input type="hidden" id="region_id" value="{{ region.id }}">
+
+    <section id="region_details">
+    {% if region %}
+        <div id="region_detail_div">
+            {{ region.free_area }} m2 free of {{ region.area }} m2
+        </div>
+    {% endif %}
+    </section>    
+
+    <section id="region_locations">
+    {% if region.locations %}
+        {% for location in region.locations %}
+            <ul id="location_{{ location.id }}">
+                <li><a href="/location/{{ location.id }}/">{{ location.name }}</a></li>
+                <li>{{ location.design }}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+    </section>
+    
+    {% if region %}
+        {% for param, value in region.items %}
+        <div id="region_detail_div">
+            {{ param|title }}: {{ value }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock content %}

@@ -11,18 +11,6 @@ from django.template import RequestContext
 import requests
 from base64 import b64encode
 
-def FePost(request):
-    url = 'http://aws00.grischenko.ru:8333/api/test/'
-    headers = {'Authorization': 'Bearer ' + request.session['access_token']}
-    payload = {
-            'type': 11,
-            'location': 4,
-            'owner': 3
-        }
-    response = requests.post(url, headers=headers, data=payload).json()
-    print(response)
-    
-    
 def FeLogin(request):
     """ Authorize user on remote OAuth2 server and login/create
         a local copy on success. Receive and save tokens as well. """
@@ -121,7 +109,7 @@ class LocationDetailView(TemplateView):
 
         # This info is going to be quite static so we pre load it now.
         id = self.kwargs['pk']
-        api_url = 'http://aws00.grischenko.ru:8333/api/location/' + id
+        api_url = 'http://aws00.grischenko.ru:8333/location/' + id
         headers = {'Authorization': 'Bearer ' + self.request.session['access_token']}
         response = requests.get(api_url, headers=headers)
 
@@ -151,7 +139,44 @@ class SlaveDetailView(TemplateView):
 
         # This info is going to be quite static so we pre load it now.
         id = self.kwargs['pk']
-        api_url = 'http://aws00.grischenko.ru:8333/api/slave/' + id
+        api_url = 'http://aws00.grischenko.ru:8333/slave/' + id
+        headers = {'Authorization': 'Bearer ' + self.request.session['access_token']}
+        response = requests.get(api_url, headers=headers)
+
+        # If we couldn't get details from API show the status in notification.
+        if not response.status_code == 200:
+            try:
+                context['notification'] = response.json()
+            except:
+                context['notification'] = "Some critical Shit!"
+            
+            context['notification_class'] = 'error'
+            return context
+
+        context['slave'] = response.json()
+        context['attributes'] = {}
+        for a in ['intelligence', 'strength', 'agility', 'charisma']:
+            context['attributes'][a] = context['slave'][a]
+        
+        context['assignments'] = response.json()['assignments']
+        
+        return context
+
+class RegionDetailView(TemplateView):
+    """ Region details and item listing. """
+    template_name = "core/region_detail.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super(RegionDetailView, self).get_context_data(**kwargs)
+        if not self.request.session or not 'access_token' in self.request.session:
+            print("NO AUTH!!!")
+            return context
+
+        context['region'] = []
+        context['user'] = self.request.user
+        context['token'] = self.request.session['access_token']
+        id = self.kwargs['pk']
+        api_url = 'http://aws00.grischenko.ru:8333/region/' + id
         headers = {'Authorization': 'Bearer ' + self.request.session['access_token']}
         response = requests.get(api_url, headers=headers)
 
@@ -160,7 +185,8 @@ class SlaveDetailView(TemplateView):
             context['notification'] = response.json()
             context['notification_class'] = 'error'
             return context
+        print(response.json())
+        context['region'] = response.json()
 
-        context['slave'] = response.json()
-        
         return context
+

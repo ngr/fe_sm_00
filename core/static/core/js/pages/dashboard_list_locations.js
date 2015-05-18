@@ -2,7 +2,7 @@ $(document).ready(function(){
     var token = $("#token").val();
 
     var regs = jQuery.ajax( {
-        url: 'http://aws00.grischenko.ru:8333/api/locations/?idle=True&limit=10',
+        url: 'http://aws00.grischenko.ru:8333/locations/?idle=True&limit=10',
         dataType: 'json',
         type: 'GET',
         beforeSend : function( xhr ) {

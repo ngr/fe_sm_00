@@ -2,7 +2,7 @@ $(document).ready(function(){
     var token = $("#token").val();
 
     jQuery.ajax( {
-        url: 'http://aws00.grischenko.ru:8333/api/taskworkflows/?location_type=' + $("#location_type").val(),
+        url: 'http://aws00.grischenko.ru:8333/taskworkflows/?location_type=' + $("#location_type").val(),
         dataType: 'json',
         type: 'GET',
         beforeSend : function( xhr ) {
@@ -21,7 +21,7 @@ $(document).ready(function(){
     $( "#create_task_form" ).submit(function( event ){
         payload = $("#create_task_form").serializeObject();       
         jQuery.ajax( {
-            url: 'http://aws00.grischenko.ru:8333/api/tasks/',
+            url: 'http://aws00.grischenko.ru:8333/tasks/',
             data: payload,
             type: 'POST',
             beforeSend : function( xhr ) {
