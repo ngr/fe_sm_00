@@ -50,4 +50,18 @@
         <script src="{% static 'core/js/pages/location_tasks.js' %}"></script>
     </section>
     
+    <section id="items">
+        <script src="{% static 'core/js/draw/item.js' %}"></script>
+        {% if not location_details.items %}
+        {% for item in location_details.items %}
+            <ul id="item_{{ item.id }}">
+                <li class="item_id">{{ item.id}}</li>
+                <li class="item_itype">{{ item.itype}}</li>
+                <li class="item_name">{{ item.name }}</li>
+                <li class="item_amount">{{ item.amount }}</li>
+            </ul>
+        {% endfor %}    
+        {% endif %}
+    </section>
+    
 {% endblock content %}

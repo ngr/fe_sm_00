@@ -9,9 +9,24 @@ $(document).ready(function(){
             xhr.setRequestHeader( "Authorization", "Bearer " + token );
         },
         success: function( data ) {
-            $.each( data, function( i, item ) {
-                $("<div>").attr("id", "task_"+item.id).html( drawTaskRunning(item) ).appendTo( "#running_tasks" );
+            $.each( data, function( i, task ) {
+                $("<div>").attr("id", "task_"+task.id).html( drawTaskRunning(task) ).appendTo( "#running_tasks" );
               });
         },
     } );
+
+    jQuery.ajax( {
+        url: 'http://aws00.grischenko.ru:8333/items/?location=' + $("#location_id").val(),
+        dataType: 'json',
+        type: 'GET',
+        beforeSend : function( xhr ) {
+            xhr.setRequestHeader( "Authorization", "Bearer " + token );
+        },
+        success: function( data ) {
+            $.each( data, function( i, item ) {
+                $("<div>").attr("id", "item_"+item.id).html( drawItem(item) ).appendTo( "#items" );
+              });
+        },
+    } );
+    
 });
