@@ -23,7 +23,7 @@ function addSendingForm(itemId) {
 	"Amount:<br> <input type=\"number\" name=\"amount\" class=\"amountSendingItems\" min=\"1\"><br>" +
 	"<input type=\"submit\" value=\"Send\"> " + 
 	"<input type=\"button\" value=\"Cancel\" onclick=\"javascript:cancelForm(" + itemId + ");\">" +
-	"</form></div>";
+	"<div id=\"alarm\"></div></form></div>";
 	getLocationsList(); 
 }
 //--------------- AJAX request for geting locations ---------------
@@ -77,8 +77,10 @@ function sendForm(itemId) {
 			} );
 		},
 		error: function(data){
-			console.log("Error:" + JSON.parse(data.responseText).slave);
-			$("#notification").text(JSON.parse(data.responseText).slave).show().focus();  
+			console.log("Error:" + data.responseText);
+//			console.log("Error:" + JSON.parse(data.responseText).slave);
+//			$("#alarm").text(JSON.parse(data.responseText).slave).show().focus();  
+			$("#alarm").text("Error: " + data.responseText).show();  
 		},
 	});
 }

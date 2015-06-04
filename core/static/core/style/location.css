@@ -20,3 +20,7 @@ li.item_itype {
 	text-align: center;
 	padding: 0;
 }
+#alarm {
+	text-align: center;
+	color: red;
+}
